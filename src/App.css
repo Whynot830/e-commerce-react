@@ -1,0 +1,26 @@
+* {
+  font-family: 'Geist', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  text-wrap: balance;
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #555;
+  border-radius: 0.5rem;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: #333;
+}
+
+[data-theme='dark'] img, object {
+  filter: brightness(0.85);
+}
