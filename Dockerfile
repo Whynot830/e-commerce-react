@@ -9,19 +9,11 @@ RUN npm install --install
 
 COPY . .
 
-# dev
-FROM base AS development
-
-EXPOSE 3000
-
-CMD ["npm", "run", "dev"]
-
-# production
-FROM base AS production
+FROM base
 
 RUN npm run build
 
-EXPOSE 3000
+EXPOSE 5173
 
 CMD ["npm", "start"]
 
