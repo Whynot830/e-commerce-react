@@ -95,7 +95,7 @@ const Product = () => {
                                 </h2>
 
                                 <Card className="bg-secondary p-1 w-2/3 max-w-[300px] sm:max-w-[400px] md:w-[400px]">
-                                    <object className="w-full rounded-sm" data={`http://localhost:8080/api/images/${product?.imgName}`} type="image/png">
+                                    <object className="w-full rounded-sm" data={`${axios.defaults.baseURL}/images/${product?.imgName}`} type="image/png">
                                         <img className='h-full transition' src='/furniture.png' alt={`${product?.title} image`} />
                                     </object>
                                 </Card>

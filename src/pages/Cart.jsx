@@ -1,4 +1,4 @@
-import { axiosPrivate } from "@/api/axios"
+import axios, { axiosPrivate } from "@/api/axios"
 import ViewTransitionLink from "@/components/ViewTransitionLink"
 import { DeleteIcon } from "@/components/ui/DeleteIcon"
 import { Button } from "@/components/ui/button"
@@ -107,7 +107,7 @@ const Cart = () => {
                                 {isLoading ? 'Подождите...' : 'Оформить заказ'}
                             </Button>
                         </div>
-                        <div className="p-5 rounded-md bg-accent flex flex-col gap-y-2">
+                        <div className="p-5 rounded-md bg-accent flex flex-col gap-y-2 w-full max-w-[700px]">
                             <div className="flex justify-between mb-2">
                                 <h2 className='text-lg font-semibold'>Добавленные товары</h2>
                                 <Button disabled={isLoading} size='sm' onClick={clearCart} className='w-fit'>
@@ -118,23 +118,23 @@ const Cart = () => {
                             <ScrollArea className="max-h-[60vh]">
                                 <div className="flex flex-col w-full gap-y-4 px-3">
                                     {cart.items.map((item) =>
-                                        <Card key={item.id} className="flex">
-                                            <CardHeader className='p-4'>
-                                                <CardTitle className="text-base text-balance">
-                                                    <div className="max-w-[120px]">
-                                                        <object className="w-full" data={`http://localhost:8080/api/images/${item.product.imgName}`} type="image/png">
+                                        <Card key={item.id} className="flex flex-col sm:flex-row">
+                                            <CardHeader className='p-3'>
+                                                {/* <CardTitle className="text-base text-balance"> */}
+                                                    <div className="mx-auto w-full max-w-[200px] sm:w-[120px]">
+                                                        <object className="w-full" data={`${axios.defaults.baseURL}/images/${item.product.imgName}`} type="image/png">
                                                             <img className='w-full' src='furniture.png' alt="IMAGE" />
                                                         </object>
                                                     </div>
-                                                </CardTitle>
+                                                {/* </CardTitle> */}
                                             </CardHeader>
-                                            <CardContent className='p-4 border-x w-[150px]'>
+                                            <CardContent className='p-3 border-x flex-1'>
                                                 <p className="h-full font-semibold flex flex-col gap-y-3 justify-between items-end text-sm md:text-base">
                                                     <span className="w-full">{item.product.title}</span>
                                                     <span>$ {item.product.price}</span>
                                                 </p>
                                             </CardContent>
-                                            <CardFooter >
+                                            <CardFooter className='p-3 justify-end'>
                                                 <button disabled={isLoading}
                                                     onClick={() => { deleteFromCart(item.id) }}
                                                     className="p-1 text-destructive cursor-pointer hover:bg-secondary transition-colors rounded-sm disabled:pointer-events-none disabled:opacity-50">

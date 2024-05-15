@@ -144,7 +144,7 @@ const Catalog = () => {
                                                                     <div className=" flex h-[120px] sm:h-[150px] w-full justify-center">
                                                                         {product ? (
 
-                                                                            <object data={`http://localhost:8080/api/images/${product.imgName}`} type="image/png">
+                                                                            <object data={`${axios.defaults.baseURL}/images/${product.imgName}`} type="image/png">
                                                                                 <img className='h-full' src='/furniture.png' alt={`${product.title} image`} />
                                                                             </object>
 
