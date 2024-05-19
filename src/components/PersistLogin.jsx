@@ -1,10 +1,10 @@
 import useAuth from "@/lib/hooks/useAuth";
+import useLogout from "@/lib/hooks/useLogout";
 import useRefresh from "@/lib/hooks/useRefresh";
 import transition from "@/lib/transition";
 import { useEffect, useState } from "react";
 import { Outlet } from "react-router-dom";
-import { LoaderCircle } from "lucide-react";
-import useLogout from "@/lib/hooks/useLogout";
+import Loader from "./Loader";
 
 const PersistLogin = () => {
     const [isLoading, setIsLoading] = useState(true)
@@ -39,9 +39,7 @@ const PersistLogin = () => {
     return (
         <>
             {isLoading ? (
-                <div className="absolute inset-0 bottom-20 flex justify-center items-center">
-                    <LoaderCircle className="animate-spin h-1/6 w-1/6" />
-                </div>
+                <Loader />
             ) : (
                 <Outlet />
             )}

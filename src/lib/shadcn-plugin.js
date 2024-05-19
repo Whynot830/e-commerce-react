@@ -23,28 +23,28 @@ export const shadcnPlugin = plugin(
                 "--border": "0 0% 90%",
                 "--input": "0 0 60%",
                 "--ring": "0 0 50%",
-                "--radius": "0.75rem"
+                "--radius": "1rem"
             },
             "[data-theme='dark']": {
-                "--background": "272 5% 7%",
+                "--background": "272 5% 10%",
                 "--foreground": "0 0% 80%",
-                "--card": "272 5% 5%",
+                "--card": "272 5% 7%",
                 "--card-foreground": "0 0% 90%",
                 "--popover": "272 5% 4%",
                 "--popover-foreground": "0 0% 90%",
-                "--primary": "0 0% 80%",
+                "--primary": "250 50% 70%",
                 "--primary-foreground": "0 0% 0%",
-                "--secondary": "240 3.7% 15.9%",
+                "--secondary": "250 20% 15.9%",
                 "--secondary-foreground": "0 0% 98%",
                 "--muted": "240 4% 16%",
-                "--muted-foreground": "0 0% 65%",
-                "--accent": "272 5% 10%",
+                "--muted-foreground": "250 20% 70%",
+                "--accent": "272 15% 12%",
                 "--accent-foreground": "0 0% 98%",
                 "--destructive": "0 60% 55%",
                 "--destructive-foreground": "0 0% 100%",
-                "--border": "272 5% 17%",
-                "--input": "272 5% 25%",
-                "--ring": "272 5% 40%"
+                "--border": "250 10% 0% /0",
+                "--input": "250 10% 20% /0",
+                "--ring": "250 7% 40%"
             }
         })
         addBase({

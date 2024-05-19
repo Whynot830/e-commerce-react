@@ -1,5 +1,5 @@
 import useViewNavigate from "@/lib/hooks/viewNavigate";
-import { Link, Navigate, useLocation } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 const ViewTransitionLink = ({ to, children, options, disabled = false }) => {
     const navigate = useViewNavigate()

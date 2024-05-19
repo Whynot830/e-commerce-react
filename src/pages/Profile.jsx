@@ -1,21 +1,19 @@
+import axios from '@/api/axios'
+import ThemeContext from '@/components/providers/ThemeProvider'
+import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle, } from '@/components/ui/card'
+import { Input } from '@/components/ui/input'
+import { Label } from '@/components/ui/label'
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
+import { Tabs, TabsContent, TabsList, TabsTrigger, } from '@/components/ui/tabs'
+import { toast } from '@/components/ui/use-toast'
+import useAuth from '@/lib/hooks/useAuth'
 import useAxiosPrivate from '@/lib/hooks/useAxiosPrivate'
 import useLogout from '@/lib/hooks/useLogout'
 import useViewNavigate from '@/lib/hooks/viewNavigate'
 import transition from '@/lib/transition'
 import { useContext, useEffect, useState } from 'react'
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue, } from "@/components/ui/select"
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle, } from '@/components/ui/card'
-import { Input } from '@/components/ui/input'
-import { Label } from '@/components/ui/label'
-import { Tabs, TabsContent, TabsList, TabsTrigger, } from '@/components/ui/tabs'
-import { Badge } from '@/components/ui/badge'
-import ThemeContext from '@/components/providers/ThemeProvider'
-import Combobox from "../components/ui/Combobox"
-import axios from '@/api/axios'
-import useAuth from '@/lib/hooks/useAuth'
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
-import { toast } from '@/components/ui/use-toast'
 
 const Profile = () => {
     const axiosPrivate = useAxiosPrivate()
@@ -94,7 +92,10 @@ const Profile = () => {
                 const response = await axios.get('/categories', {
                     signal: controller.signal
                 })
-                isMounted && transition(() => setCategories(response.data.map(category => category.name)))
+                isMounted && transition(() => setCategories(response.data.map(category => ({
+                    name: category.name,
+                    value: category.name
+                }))))
             } catch (error) {
                 console.log(error)
             }
@@ -122,11 +123,11 @@ const Profile = () => {
     return (
         <div className='flex justify-center'>
             <Tabs value={tab} onValueChange={changeTab} className='w-[300px] sm:w-[500px]'>
-                <TabsList>
+                <TabsList className='w-full justify-center'>
                     <TabsTrigger value='account'>Аккаунт</TabsTrigger>
                     <TabsTrigger value='orders'>Заказы</TabsTrigger>
                     {/* <TabsTrigger disabled={auth?.user?.role != 'ADMIN'} value='products'>Products</TabsTrigger> */}
-                    <TabsTrigger value='appearance'>Персонализация</TabsTrigger>
+                    {/* <TabsTrigger value='appearance'>Персонализация</TabsTrigger> */}
                 </TabsList>
                 <TabsContent value='account'>
                     <Card>
@@ -215,7 +216,7 @@ const Profile = () => {
                             </div>
                             <div className='space-y-2 pt-2'>
                                 <div className="grid grid-cols-3 items-between">
-                                    <Combobox withSearch={true} value={category} setValue={setCategory} itemName={'category'} data={categories} />
+                                    <Combobox withSearch={true} value={category?.name} setValue={setCategory} itemName={'category'} data={categories} />
                                 </div>
                             </div>
                             <div className='space-y-2 pt-3'>
@@ -229,7 +230,7 @@ const Profile = () => {
                         </CardFooter>
                     </Card>
                 </TabsContent> */}
-                <TabsContent value='appearance'>
+                {/* <TabsContent value='appearance'>
                     <Card>
                         <CardHeader>
                             <CardTitle>Персонализация</CardTitle>
@@ -267,7 +268,7 @@ const Profile = () => {
                             <Button onClick={submitPreferences}>Сохранить изменения</Button>
                         </CardFooter>
                     </Card>
-                </TabsContent>
+                </TabsContent> */}
             </Tabs>
         </div>
         // <div className='flex flex-col gap-5'>

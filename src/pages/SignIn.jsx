@@ -164,16 +164,16 @@ const SignIn = () => {
                             />
                             <div className="flex flex-col gap-y-4 items-start">
                                 <ViewTransitionLink to='/signup' options={options}>
-                                    <span className="text-sm text-primary font-medium underline-offset-4 hover:underline">Создать аккаунт</span>
+                                    <span className="text-sm text-primary font-medium underline-offset-4 hover:underline">Еще нет аккаунта?</span>
                                 </ViewTransitionLink>
                                 <div className="flex items-center gap-x-3 my-3">
                                     <Checkbox id="persist" onCheckedChange={togglePersist} checked={persist} />
-                                    <label htmlFor="persist" className="cursor-pointer leading-none text-sm font-medium text-primary">Доверять этому устройству</label>
+                                    <label htmlFor="persist" className="cursor-pointer leading-none text-sm font-medium text-foreground">Доверять этому устройству</label>
                                 </div>
                                 <Button disabled={isLoading} type='submit'>
                                     {isLoading ? (
                                         <>
-                                            <LoaderIcon className="animate-spin mr-3"></LoaderIcon>
+                                            <LoaderIcon className="text-primary-foreground animate-spin mr-3"></LoaderIcon>
                                             Подождите
                                         </>
                                     ) :

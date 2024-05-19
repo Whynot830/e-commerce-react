@@ -17,7 +17,7 @@ import {
 import { useState } from 'react'
 import { CommandList } from 'cmdk'
 
-const Combobox = ({ data, itemName, value, setValue, withSearch = false }) => {
+const Combobox = ({ data, itemName, value, setValue, caption = `Select ${itemName}...`, withSearch = false }) => {
     const [open, setOpen] = useState(false)
 
     return (
@@ -29,7 +29,7 @@ const Combobox = ({ data, itemName, value, setValue, withSearch = false }) => {
                     aria-expanded={open}
                     className='min-w-[150px] justify-between'
                 >
-                    {value?.toUpperCase() ?? `Select ${itemName}...`}
+                    {value?.toUpperCase() ?? caption}
                     <ChevronsUpDown className='ml-2 h-4 w-4 shrink-0 opacity-50' />
                 </Button>
             </PopoverTrigger>
@@ -53,10 +53,10 @@ const Combobox = ({ data, itemName, value, setValue, withSearch = false }) => {
                                     <Check
                                         className={cn(
                                             'mr-2 h-4 w-4',
-                                            value === item.value ? 'opacity-100' : 'opacity-0'
+                                            value === item.name ? 'opacity-100' : 'opacity-0'
                                         )}
                                     />
-                                    {item?.toUpperCase()}
+                                    {item.name?.toUpperCase()}
                                 </CommandItem>
                             ))}
                         </CommandGroup>

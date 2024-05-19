@@ -5,16 +5,18 @@ import Footer from "./Footer";
 
 const Layout = () => {
     return (
-        <div className="relative flex min-h-screen flex-col">
-            <Header />
-            <main className="flex flex-1 border-b">
-                <div className="py-6 container relative">
-                    <Outlet />
-                </div>
-            </main>
-            <Toaster />
-            <Footer />
-        </div>
+        <>
+            <div className="relative flex min-h-screen flex-col">
+                <Header />
+                <main className="flex flex-1">
+                    <div className="py-6 container relative">
+                        <Outlet />
+                    </div>
+                </main>
+                <Toaster />
+                <Footer />
+            </div>
+        </>
 
     )
 }
