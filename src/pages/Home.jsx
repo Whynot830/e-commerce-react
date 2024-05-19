@@ -1,5 +1,4 @@
 import ViewTransitionLink from "@/components/ViewTransitionLink"
-import { Button } from "@/components/ui/button"
 
 const Home = () => {
     return (
@@ -19,7 +18,7 @@ const Home = () => {
                 </div>
             </div>
             <div className="snap-center relative">
-                <img className="w-full h-auto" src="laurameroni-luxury-livingroom-interior-design_09 - Copy.jpg" alt="laurameroni-luxury-livingroom-interior-design_09.jpg" />
+                <img className="w-full h-auto" src="laurameroni-luxury-livingroom-interior-design_09.jpg" alt="laurameroni-luxury-livingroom-interior-design_09.jpg" />
                 <div className="absolute inset-0 h-5/6 flex items-center justify-center">
                     <p className="bg-background/30 py-2 w-full text-white font-bold tracking-tight text-center text-balance text-3xl sm:text-4xl md:text-5xl lg:text-6xl">
                         Большой выбор

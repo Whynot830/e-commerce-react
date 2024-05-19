@@ -1,13 +1,11 @@
 import axios, { axiosPrivate } from "@/api/axios"
-import ViewTransitionLink from "@/components/ViewTransitionLink"
-import { DeleteIcon } from "@/components/ui/DeleteIcon"
 import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
+import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card"
 import { ScrollArea } from "@/components/ui/scroll-area"
 import { toast } from "@/components/ui/use-toast"
 import useViewNavigate from "@/lib/hooks/viewNavigate"
 import transition from "@/lib/transition"
-import { Delete, Loader, LucideDelete, Trash, Trash2, X } from "lucide-react"
+import { Loader, Trash2, X } from "lucide-react"
 import { useEffect, useState } from "react"
 
 const Cart = () => {
@@ -101,24 +99,24 @@ const Cart = () => {
             <div className="flex h-full flex-col gap-y-3 items-center ">
                 {cart && cart.items?.length > 0 ? (
                     <>
-                        <div className="p-4 rounded-md bg-accent flex justify-center items-center gap-x-5">
+                        <div className="p-4 rounded-md bg-card flex justify-center items-center gap-x-5">
                             <h2 className='text-lg text-secondary-foreground font-semibold'>Сумма: {cart?.total && `$ ${cart.total}`}</h2>
                             <Button disabled={isLoading} size='sm' onClick={checkOut} className='w-fit'>
                                 {isLoading ? 'Подождите...' : 'Оформить заказ'}
                             </Button>
                         </div>
-                        <div className="p-5 rounded-md bg-accent flex flex-col gap-y-2 w-full max-w-[700px]">
+                        <div className="p-5 rounded-md bg-card flex flex-col gap-y-2 w-full max-w-[700px]">
                             <div className="flex justify-between mb-2">
                                 <h2 className='text-lg font-semibold'>Добавленные товары</h2>
                                 <Button disabled={isLoading} size='sm' onClick={clearCart} className='w-fit'>
-                                    {isLoading ? <Loader className="animate-spin" /> : <Trash2 />}
+                                    {isLoading ? <Loader className="text-primary-foreground animate-spin" /> : <Trash2 className="text-primary-foreground" />}
                                 </Button>
 
                             </div>
                             <ScrollArea className="max-h-[60vh]">
                                 <div className="flex flex-col w-full gap-y-4 px-3">
                                     {cart.items.map((item) =>
-                                        <Card key={item.id} className="flex flex-col sm:flex-row">
+                                        <Card key={item.id} className="flex flex-col sm:flex-row bg-accent">
                                             <CardHeader className='p-3'>
                                                 {/* <CardTitle className="text-base text-balance"> */}
                                                     <div className="mx-auto w-full max-w-[200px] sm:w-[120px]">

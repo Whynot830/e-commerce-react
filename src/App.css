@@ -9,7 +9,7 @@
 }
 
 ::-webkit-scrollbar-track {
-  background: transparent;
+  background: rgba(0, 0, 0, 0.3);
 }
 
 ::-webkit-scrollbar-thumb {
@@ -21,6 +21,11 @@
   background-color: #333;
 }
 
-[data-theme='dark'] img, object {
+[data-theme='dark'] img,
+object {
   filter: brightness(0.85);
+}
+
+svg {
+  color: hsl(var(--primary))
 }

@@ -1,5 +1,3 @@
-import { EyeFilledIcon } from "../components/ui/EyeFilledIcon"
-import { EyeSlashFilledIcon } from "../components/ui/EyeSlashFilledIcon"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Form, FormControl, FormItem, FormField, FormLabel, FormMessage } from "@/components/ui/form"
 import { Button } from "@/components/ui/button"
@@ -9,7 +7,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { useEffect, useRef, useState } from "react"
 import transition from "@/lib/transition"
 import { useForm } from "react-hook-form"
-import { LoaderIcon } from "lucide-react"
+import { EyeIcon, EyeOffIcon, LoaderIcon } from "lucide-react"
 import { CanceledError } from "axios"
 import { useToast } from "../components/ui/use-toast"
 import useViewNavigate from "@/lib/hooks/viewNavigate"
@@ -153,8 +151,8 @@ const SignIn = () => {
                                             </FormControl>
                                             <div className="flex absolute mr-3 cursor-pointer" onClick={togglePassVisibility} >
                                                 {
-                                                    isPassVisible ? <EyeFilledIcon className='text-2xl' /> :
-                                                        <EyeSlashFilledIcon className='text-2xl' />
+                                                    isPassVisible ? <EyeIcon className='text-2xl' /> :
+                                                        <EyeOffIcon className='text-2xl' />
                                                 }
                                             </div>
                                         </div>
@@ -164,16 +162,16 @@ const SignIn = () => {
                             />
                             <div className="flex flex-col gap-y-4 items-start">
                                 <ViewTransitionLink to='/signup' options={options}>
-                                    <span className="text-sm text-primary font-medium underline-offset-4 hover:underline">Создать аккаунт</span>
+                                    <span className="text-sm text-primary font-medium underline-offset-4 hover:underline">Еще нет аккаунта?</span>
                                 </ViewTransitionLink>
                                 <div className="flex items-center gap-x-3 my-3">
                                     <Checkbox id="persist" onCheckedChange={togglePersist} checked={persist} />
-                                    <label htmlFor="persist" className="cursor-pointer leading-none text-sm font-medium text-primary">Доверять этому устройству</label>
+                                    <label htmlFor="persist" className="cursor-pointer leading-none text-sm font-medium text-foreground">Доверять этому устройству</label>
                                 </div>
                                 <Button disabled={isLoading} type='submit'>
                                     {isLoading ? (
                                         <>
-                                            <LoaderIcon className="animate-spin mr-3"></LoaderIcon>
+                                            <LoaderIcon className="text-primary-foreground animate-spin mr-3"></LoaderIcon>
                                             Подождите
                                         </>
                                     ) :

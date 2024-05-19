@@ -1,5 +1,3 @@
-import { EyeFilledIcon } from "../components/ui/EyeFilledIcon"
-import { EyeSlashFilledIcon } from "../components/ui/EyeSlashFilledIcon"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Form, FormControl, FormDescription, FormItem, FormField, FormLabel, FormMessage } from "@/components/ui/form"
 import { Button } from "@/components/ui/button"
@@ -9,7 +7,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { useEffect, useRef, useState } from "react"
 import transition from "@/lib/transition"
 import { useForm } from "react-hook-form"
-import { LoaderIcon } from "lucide-react"
+import { EyeIcon, EyeOffIcon, LoaderIcon } from "lucide-react"
 import useViewNavigate from "@/lib/hooks/viewNavigate"
 import { toast } from "@/components/ui/use-toast"
 import axios from "@/api/axios"
@@ -116,7 +114,7 @@ const SignUp = () => {
                                     <FormItem>
                                         <FormLabel>Логин</FormLabel>
                                         <FormControl>
-                                            <Input placeholder="JohnDoe" {...field} ref={inputRef} />
+                                            <Input placeholder="goodPerson21" {...field} ref={inputRef} />
                                         </FormControl>
                                         <FormDescription>
                                             От 3 до 16 символов
@@ -146,12 +144,12 @@ const SignUp = () => {
                                         <FormLabel>Пароль</FormLabel>
                                         <div className="flex relative items-center justify-end">
                                             <FormControl>
-                                                <Input type={isPassVisible ? 'text' : 'password'} placeholder="strongSecret!@$7" {...field} />
+                                                <Input type={isPassVisible ? 'text' : 'password'} placeholder="notWeakPass141!" {...field} />
                                             </FormControl>
                                             <div className="flex absolute mr-3 cursor-pointer" onClick={togglePassVisibility} >
                                                 {
-                                                    isPassVisible ? <EyeFilledIcon className='text-2xl' /> :
-                                                        <EyeSlashFilledIcon className='text-2xl' />
+                                                    isPassVisible ? <EyeIcon className='text-2xl' /> :
+                                                        <EyeOffIcon className='text-2xl' />
                                                 }
                                             </div>
                                         </div>
@@ -169,7 +167,7 @@ const SignUp = () => {
                                     <FormItem>
                                         <FormLabel>Подтверждение пароля</FormLabel>
                                         <FormControl>
-                                            <Input type={isPassVisible ? 'text' : 'password'} placeholder="strongSecret!@$7" {...field} />
+                                            <Input type={isPassVisible ? 'text' : 'password'} {...field} />
                                         </FormControl>
                                         <FormMessage />
                                     </FormItem>
@@ -182,7 +180,7 @@ const SignUp = () => {
                                 <Button disabled={isLoading} type='submit'>
                                     {isLoading ? (
                                         <>
-                                            <LoaderIcon className="animate-spin mr-3"></LoaderIcon>
+                                            <LoaderIcon className="text-primary-foreground animate-spin mr-3"></LoaderIcon>
                                             Подождите
                                         </>
                                     ) :

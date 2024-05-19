@@ -1,73 +1,112 @@
+import axios from "@/api/axios"
+import CatalogCard from "@/components/CatalogCard"
+import Loader from "@/components/Loader"
+import PaginationComponent from "@/components/Pagination"
+import Combobox from "@/components/ui/Combobox"
 import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
+import { Card, CardContent } from "@/components/ui/card"
+import { Input } from "@/components/ui/input"
+import { toast } from "@/components/ui/use-toast"
+import useViewNavigate from "@/lib/hooks/viewNavigate"
 import transition from "@/lib/transition"
-import axios from "axios"
 import { useEffect, useState } from "react"
 import { useLocation } from "react-router-dom"
 
 const ProductsByCategory = () => {
+    const location = useLocation()
+    const navigate = useViewNavigate()
+
     const [isLoading, setLoading] = useState(true)
     const [products, setProducts] = useState([])
-    const location = useLocation()
-    
-    const currentCategory = location.pathname.split('/')[0]
-    console.log();
-    console.log(currentCategory);
+    const [query, setQuery] = useState('')
+    const searchedProducts = products.filter(p => p.title.toLowerCase().includes(query.toLowerCase()))
+
+    const sortStrategies = [{ name: 'Названию', value: 'title' }, { name: 'Цене', value: 'price' }]
+    const sortOrders = [{ name: 'по возрастанию', value: 'asc' }, { name: 'по убыванию', value: 'desc' }]
+
+    const [page, setPage] = useState(0)
+    const [sort, setSort] = useState(sortStrategies[0])
+    const [order, setOrder] = useState(sortOrders[0])
+    const [totalPages, setTotalPages] = useState(null)
+
+    const encodedCategory = location.pathname.split('/')[2]
+    const decodedCategory = decodeURIComponent(encodedCategory)
+
     useEffect(() => {
-        const fetchProductsByCategory = async (category) => {
-            const response = await axios.get(`/products?category=${category}`)
-            console.log(response)
+        const fetchProductsByCategory = async () => {
+            const response = await axios.get(`/products?category=${decodedCategory}&page=${page}&limit=12&sort=${sort.value}&order=${order.value}`)
             if (response.status === 200) {
                 return response.data
-                // transition(() => {
-                //     setProducts(response.data.products)
-                //     setLoading(false)
-                // })
-                // console.log(response.data)
             }
-            // return []
         }
-        fetchProductsByCategory(currentCategory).then((data) => {
+        fetchProductsByCategory().then((data) => {
             transition(() => {
                 setLoading(false)
                 setProducts(data.products)
+                setTotalPages(data.totalPages)
             })
-        }).catch((err) => { console.log(err) })
-        // fetchProductsByCategory(currentCategory)
-    }, [])
+        }).catch((err) => {
+            console.log(err)
+            setLoading(false)
+            toast({
+                variant: 'destructive',
+                title: 'Что-то пошло не так...',
+                description: 'Возникла проблема с запросом, попробуйте позже',
+            })
+        })
+    }, [page, decodedCategory, sort, order])
     return (
         <>
-            {/* {isLoading && <h2>Loading...</h2>}
-            <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+            {isLoading
+                ? <Loader />
+                : (
+                    <div className="h-full flex flex-col items-center">
+                        <div className="flex flex-col items-start mx-auto w-full max-w-[400px] sm:max-w-[600px]
+                        sm:grid grid-cols-3 bg-card p-4 gap-y-3 sm:items-center rounded-lg text-secondary-foreground font-semibold">
+                            <h3>Поиск по названию</h3>
+                            <Input placeholder='Начните вводить название...' className='col-span-2' onChange={(e) => transition(() => setQuery(e.target.value))} />
+                            <h3>Сортировать по</h3>
+                            <Combobox value={sort.name} setValue={setSort} data={sortStrategies} caption={`Сортировать по ${sort.name}`} />
+                            <Combobox value={order.name} setValue={setOrder} data={sortOrders} caption={`${order.name}`} />
+                        </div>
+                        {searchedProducts.length !== 0 && (
+                            <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 
+                                            xl:grid-cols-4 gap-4 justify-items-center flex-1 w-fit">
+                                {searchedProducts.map(product =>
+                                (
+                                    <div key={product.id} className="w-full max-w-[400px]">
+                                        <CatalogCard product={product} />
 
-                {products.map(product =>
-                    <Card key={product.id}>
-                        <div className="flex h-full flex-col justify-between">
-                            <CardHeader className='p-4'>
-                                <CardTitle className='flex justify-center'>
-                                    <img className='w-[300px]' src="/123.png" />
-                                </CardTitle>
-                                <CardDescription className=' !mt-5'>
-                                    {product.title}
-                                </CardDescription>
-                            </CardHeader>
-                            <div>
-                                <CardContent className='p-4'>
-                                     USD ${product.price}
-                                </CardContent>
-                                <CardFooter className='p-4'>
-                                    <Button>
-                                        Add to cart
-                                    </Button>
-                                </CardFooter>
+                                    </div>
+                                )
+                                )}
 
+                                {totalPages && (
+                                    <Card className="col-span-full self-end">
+                                        <CardContent className='p-2'>
+                                            <PaginationComponent totalPage={totalPages} page={page} limit={1} siblings={1} setPage={setPage} />
+                                        </CardContent>
+                                    </Card>
+                                )}
                             </div>
 
-                        </div>
-                    </Card>
+                        )}
+                        {products.length !== 0 && searchedProducts.length === 0 && (
+                            <div className="mt-10 flex flex-col justify-center items-center gap-y-5">
+                                <h2 className="text-center text-lg sm:text-xl text-secondary-foreground font-semibold tracking-tight">По вашему запросу ничего не найдено...</h2>
+                                <h2 className="text-center sm:text-lg text-secondary-foreground font-semibold tracking-tight">Можете поискать товары в других категориях!</h2>
+                                <Button onClick={() => navigate('/catalog')}>К категориям</Button>
+                            </div>
+                        )}
+                        {products.length === 0 && (
+                            <div className="absolute inset-0 flex flex-col bottom-20 justify-center items-center gap-y-5">
+                                <h2 className="text-center text-lg sm:text-xl text-secondary-foreground font-semibold tracking-tight">Пока что категория &apos;{decodedCategory}&apos; пустует...</h2>
+                                <h2 className="text-center sm:text-lg text-secondary-foreground font-semibold tracking-tight">Можете поискать товары в других категориях!</h2>
+                                <Button onClick={() => navigate('/catalog')}>К категориям</Button>
+                            </div>
+                        )}
+                    </div>
                 )}
-            </div> */}
-
         </>
     )
 }
