@@ -76,7 +76,6 @@ const ProductsByCategory = () => {
                                 (
                                     <div key={product.id} className="w-full max-w-[400px]">
                                         <CatalogCard product={product} />
-
                                     </div>
                                 )
                                 )}

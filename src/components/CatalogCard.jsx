@@ -81,7 +81,7 @@ const CatalogCard = ({ product }) => {
                     )}
                 </div>
             </CardContent>
-            <CardFooter className='p-4 flex flex-wrap justify-between gap-y-3'>
+            <CardFooter className='p-4 flex flex-wrap justify-between gap-3'>
 
                 <span className="text-muted-foreground">{product ? <>${product.price}</> : 'N/A'} </span>
                 <Button disabled={!product} onClick={(e) => { addToCart(e, product.id) }}>
