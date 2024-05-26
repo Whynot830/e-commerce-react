@@ -32,7 +32,7 @@ const Product = () => {
                 title: 'Товар добавлен в корзину'
             })
         } catch (err) {
-            event.target.innerText = 'Add to cart'
+            event.target.innerText = 'Добавить в корзину'
             event.target.disabled = false
             if (err.response?.status === 401)
                 toast({
