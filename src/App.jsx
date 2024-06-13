@@ -12,13 +12,14 @@ import Catalog from './pages/Catalog'
 import Cart from './pages/Cart'
 import ProductsByCategory from './pages/ProductsByCategory'
 import Product from './pages/Product'
+import ErrorPage from './pages/Error'
 
 function App() {
   return (
     <Routes>
       <Route path="/" element={<Home />} />
-      
-      <Route path='/' element={<Layout />}>  
+
+      <Route path='/' element={<Layout />}>
         <Route path="/login" element={<SignIn />} />
         <Route path="/signup" element={<SignUp />} />
         <Route path="/catalog" element={< Catalog />} />
@@ -32,6 +33,7 @@ function App() {
           </Route>
         </Route>
 
+        <Route path='/error' element={<ErrorPage />} />
         <Route path='/404' element={<NotFound />} />
         <Route path="*" element={<NotFound />} />
       </Route>

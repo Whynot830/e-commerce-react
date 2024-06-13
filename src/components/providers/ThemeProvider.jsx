@@ -13,8 +13,10 @@ export const ThemeProvider = ({ children }) => {
     const [theme, setTheme] = useState(localStorage.getItem('theme') || getSystemThemePreference())
 
     const setNewTheme = (newTheme) => {
-        transition(() => setTheme(newTheme))
-        localStorage.setItem('theme', newTheme)
+        if (newTheme !== theme) {
+            transition(() => setTheme(newTheme))
+            localStorage.setItem('theme', newTheme)
+        }
     }
 
     useEffect(() => {

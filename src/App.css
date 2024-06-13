@@ -22,7 +22,7 @@
 }
 
 [data-theme='dark'] img,
-object {
+[data-theme='dark'] object {
   filter: brightness(0.85);
 }
 

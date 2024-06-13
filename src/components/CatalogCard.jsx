@@ -16,31 +16,31 @@ const CatalogCard = ({ product }) => {
 
     const addToCart = async (event, productId) => {
         transition(() => {
-            event.target.innerText = 'Подождите...'
+            event.target.innerText = 'Loading...'
             event.target.disabled = true
         })
         try {
             await axiosPrivate.post(`/cart/items?productId=${productId}`, {}, {
                 validateStatus: (status) => status === 200
             })
-            event.target.innerText = 'Добавлено'
+            event.target.innerText = 'Added'
             toast({
-                title: 'Товар добавлен в корзину'
+                title: 'Product added to cart'
             })
         } catch (err) {
             transition(() => {
                 flushSync(() => {
-                    event.target.innerText = 'Добавить в корзину'
+                    event.target.innerText = 'Add to cart'
                     event.target.disabled = false
                 })
             })
             if (err.response?.status === 401)
                 toast({
-                    title: 'Необходима авторизация!',
-                    description: 'Чтобы добавлять товары в корзину',
-                    action: <ToastAction className="" altText="Войти" onClick={() => {
+                    title: 'Authentication required',
+                    description: 'To add products to cart',
+                    action: <ToastAction className="" altText="Sign in" onClick={() => {
                         navigate('/login', { state: { from: location } })
-                    }}>Войти</ToastAction>
+                    }}>Sign in</ToastAction>
                 })
         }
     }
@@ -50,14 +50,14 @@ const CatalogCard = ({ product }) => {
             <CardHeader className='p-4'>
                 <CardTitle className="text-base flex items-center">
                     <p className='text-nowrap overflow-hidden text-ellipsis'>
-                        {product ? product.title : "Скоро!"}
+                        {product ? product.title : "Coming soon!"}
                     </p>
                 </CardTitle>
 
                 <CardDescription>
                     <ViewTransitionLink disabled={!product} to={`/catalog/${product?.category}/${product?.id}`}>
                         <span className=' underline-offset-4 hover:underline'>
-                            Смотреть подробнее
+                            See more details
                         </span>
                     </ViewTransitionLink>
                 </CardDescription>
@@ -85,7 +85,7 @@ const CatalogCard = ({ product }) => {
 
                 <span className="text-muted-foreground">{product ? <>${product.price}</> : 'N/A'} </span>
                 <Button disabled={!product} onClick={(e) => { addToCart(e, product.id) }}>
-                    Добавить в корзину
+                    Add to cart
                 </Button>
             </CardFooter>
         </Card>

@@ -8,12 +8,12 @@ const Header = () => {
     const params = useParams()
     const navigate = useViewNavigate()
     return (
-        <header className="sticky top-0 z-50 w-full bg-black/30 backdrop-blur supports-[backdrop-filter]:bg-black/30">
+        <header className="sticky top-0 z-50 w-full bg-black/10 backdrop-blur supports-[backdrop-filter]:bg-black/10">
             <div className="container px-4 sm:px-8 flex h-14 max-w-screen-2xl items-center justify-between">
                 <ViewTransitionLink to='/'>
                     <div className="flex gap-2 sm:gap-x-4">
                         <ArmchairIcon size={28} />
-                        <span className="text-xl font-medium">
+                        <span className="text-xl font-semibold tracking-tight">
                             Furniture Shop
                         </span>
                     </div>

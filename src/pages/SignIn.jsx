@@ -1,23 +1,24 @@
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Form, FormControl, FormItem, FormField, FormLabel, FormMessage } from "@/components/ui/form"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { z } from "zod"
-import { zodResolver } from '@hookform/resolvers/zod'
-import { useEffect, useRef, useState } from "react"
-import transition from "@/lib/transition"
-import { useForm } from "react-hook-form"
-import { EyeIcon, EyeOffIcon, LoaderIcon } from "lucide-react"
-import { CanceledError } from "axios"
-import { useToast } from "../components/ui/use-toast"
-import useViewNavigate from "@/lib/hooks/viewNavigate"
-import useAuth from "@/lib/hooks/useAuth"
-import { useLocation } from "react-router-dom"
 import axios from "@/api/axios"
-import { Checkbox } from "@/components/ui/checkbox"
 import ViewTransitionLink from "@/components/ViewTransitionLink"
+import { Button } from "@/components/ui/button"
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { Checkbox } from "@/components/ui/checkbox"
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
+import { Input } from "@/components/ui/input"
+import errorToast from "@/lib/errorToast"
+import useAuth from "@/lib/hooks/useAuth"
 import useRefresh from "@/lib/hooks/useRefresh"
+import useViewNavigate from "@/lib/hooks/viewNavigate"
+import transition from "@/lib/transition"
+import { zodResolver } from '@hookform/resolvers/zod'
+import { CanceledError } from "axios"
+import { EyeIcon, EyeOffIcon } from "lucide-react"
+import { useEffect, useRef, useState } from "react"
 import { flushSync } from "react-dom"
+import { useForm } from "react-hook-form"
+import { useLocation } from "react-router-dom"
+import { z } from "zod"
+import { useToast } from "../components/ui/use-toast"
 
 const schema = z.object({
     username: z.string().trim().min(1, ''),
@@ -39,7 +40,7 @@ const SignIn = () => {
     const [isLoading, setLoading] = useState(false)
     const [isPassVisible, setIsPassVisible] = useState(false)
     const togglePassVisibility = () => transition(() => setIsPassVisible(prev => !prev))
-    const togglePersist = () => transition(() => setPersist(prev => !prev))
+    const togglePersist = () => setPersist(prev => !prev)
 
     const form = useForm({
         defaultValues: {
@@ -74,7 +75,7 @@ const SignIn = () => {
                         setLoading(false)
                         toast({
                             variant: 'destructive',
-                            title: 'Неправильные реквизиты'
+                            title: 'Bad credentials'
                         })
                     })
                 })
@@ -89,11 +90,7 @@ const SignIn = () => {
             transition(() => {
                 flushSync(() => {
                     setLoading(false)
-                    toast({
-                        variant: 'destructive',
-                        title: 'Что-то пошло не так...',
-                        description: 'Возникла проблема с запросом, попробуйте позже',
-                    })
+                    errorToast()
                 })
             })
         }
@@ -119,9 +116,9 @@ const SignIn = () => {
 
     return (
         <div className="flex h-3/4 items-center justify-center">
-            <Card className="md:w-[400px]">
+            <Card className="sm:w-[400px]">
                 <CardHeader>
-                    <CardTitle>Войти в аккаунт</CardTitle>
+                    <CardTitle>Sign in to your account</CardTitle>
                 </CardHeader>
                 <CardContent>
                     <Form {...form}>
@@ -131,7 +128,7 @@ const SignIn = () => {
                                 name="username"
                                 render={({ field }) => (
                                     <FormItem>
-                                        <FormLabel>Логин/E-mail</FormLabel>
+                                        <FormLabel>Username/E-mail</FormLabel>
                                         <FormControl>
                                             <Input {...field} ref={inputRef} />
                                         </FormControl>
@@ -144,7 +141,7 @@ const SignIn = () => {
                                 name="password"
                                 render={({ field }) => (
                                     <FormItem>
-                                        <FormLabel>Пароль</FormLabel>
+                                        <FormLabel>Password</FormLabel>
                                         <div className="flex relative items-center justify-end">
                                             <FormControl>
                                                 <Input type={isPassVisible ? 'text' : 'password'} {...field} />
@@ -162,21 +159,15 @@ const SignIn = () => {
                             />
                             <div className="flex flex-col gap-y-4 items-start">
                                 <ViewTransitionLink to='/signup' options={options}>
-                                    <span className="text-sm text-primary font-medium underline-offset-4 hover:underline">Еще нет аккаунта?</span>
+                                    <span className="text-sm text-primary font-medium underline-offset-4 hover:underline ">Do not have an account yet?</span>
                                 </ViewTransitionLink>
                                 <div className="flex items-center gap-x-3 my-3">
                                     <Checkbox id="persist" onCheckedChange={togglePersist} checked={persist} />
-                                    <label htmlFor="persist" className="cursor-pointer leading-none text-sm font-medium text-foreground">Доверять этому устройству</label>
+                                    <label htmlFor="persist" className="cursor-pointer leading-none text-sm font-medium text-foreground">Trust this device</label>
                                 </div>
-                                <Button disabled={isLoading} type='submit'>
-                                    {isLoading ? (
-                                        <>
-                                            <LoaderIcon className="text-primary-foreground animate-spin mr-3"></LoaderIcon>
-                                            Подождите
-                                        </>
-                                    ) :
-                                        'Войти'
-                                    }</Button>
+                                <Button isLoading={isLoading} type='submit'>
+                                    Sign In
+                                </Button>
                             </div>
                         </form>
                     </Form>

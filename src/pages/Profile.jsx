@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle, } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
 import { Tabs, TabsContent, TabsList, TabsTrigger, } from '@/components/ui/tabs'
 import { toast } from '@/components/ui/use-toast'
@@ -14,15 +15,17 @@ import useLogout from '@/lib/hooks/useLogout'
 import useViewNavigate from '@/lib/hooks/viewNavigate'
 import transition from '@/lib/transition'
 import { useContext, useEffect, useState } from 'react'
+import { useLocation } from 'react-router-dom'
 
 const Profile = () => {
     const axiosPrivate = useAxiosPrivate()
     const navigate = useViewNavigate()
-    const { auth } = useAuth()
+    const location = useLocation()
+    // const { auth } = useAuth()
     const logout = useLogout()
     const signOut = async () => {
         await logout()
-        navigate('/')
+        navigate('/login', { state: { from: location } })
     }
 
     const [userData, setUserData] = useState(null)
@@ -31,48 +34,48 @@ const Profile = () => {
     const [preferredTheme, setPreferredTheme] = useState(theme)
     const submitPreferences = () => setTheme(preferredTheme)
 
-    const [file, setFile] = useState('')
-    const [category, setCategory] = useState(null)
-    const [categories, setCategories] = useState([])
+    // const [file, setFile] = useState('')
+    // const [category, setCategory] = useState(null)
+    // const [categories, setCategories] = useState([])
     const [orders, setOrders] = useState([])
-    const [title, setTitle] = useState('')
-    const [description, setDescription] = useState('')
-    const [price, setPrice] = useState(0.00)
+    // const [title, setTitle] = useState('')
+    // const [description, setDescription] = useState('')
+    // const [price, setPrice] = useState(0.00)
     const [tab, setTab] = useState('account')
 
     const changeTab = (v) => {
         transition(() => setTab(v))
     }
 
-    const saveProduct = async () => {
-        if (title == null || title === ''
-            || price == null || category == null
-            || file == null
-        ) return;
+    // const saveProduct = async () => {
+    //     if (title == null || title === ''
+    //         || price == null || category == null
+    //         || file == null
+    //     ) return;
 
-        const config = {
-            headers: {
-                'Content-Type': 'multipart/form-data',
-            },
-            withCredentials: true
-        };
-        const formData = new FormData();
-        formData.append("file", file);
-        formData.append('title', title)
-        formData.append('description', description)
-        formData.append('price', price)
-        formData.append('category', category)
-        try {
-            const res = await axios.post('/products', formData, config);
-            if (res.status === 201)
-                toast({
-                    title: 'Product added successfully!'
-                })
-        }
-        catch (err) {
-            console.log(err);
-        }
-    }
+    //     const config = {
+    //         headers: {
+    //             'Content-Type': 'multipart/form-data',
+    //         },
+    //         withCredentials: true
+    //     };
+    //     const formData = new FormData();
+    //     formData.append("file", file);
+    //     formData.append('title', title)
+    //     formData.append('description', description)
+    //     formData.append('price', price)
+    //     formData.append('category', category)
+    //     try {
+    //         const res = await axios.post('/products', formData, config);
+    //         if (res.status === 201)
+    //             toast({
+    //                 title: 'Product added successfully!'
+    //             })
+    //     }
+    //     catch (err) {
+    //         console.log(err);
+    //     }
+    // }
 
     useEffect(() => {
         let isMounted = true
@@ -124,31 +127,31 @@ const Profile = () => {
         <div className='flex justify-center'>
             <Tabs value={tab} onValueChange={changeTab} className='w-[300px] sm:w-[500px]'>
                 <TabsList className='w-full justify-center'>
-                    <TabsTrigger value='account'>Аккаунт</TabsTrigger>
-                    <TabsTrigger value='orders'>Заказы</TabsTrigger>
+                    <TabsTrigger value='account'>Account</TabsTrigger>
+                    <TabsTrigger value='orders'>Orders</TabsTrigger>
                     {/* <TabsTrigger disabled={auth?.user?.role != 'ADMIN'} value='products'>Products</TabsTrigger> */}
-                    {/* <TabsTrigger value='appearance'>Персонализация</TabsTrigger> */}
+                    <TabsTrigger value='appearance'>Personalization</TabsTrigger>
                 </TabsList>
                 <TabsContent value='account'>
                     <Card>
                         <CardHeader>
-                            <CardTitle>Аккаунт</CardTitle>
+                            <CardTitle>Account</CardTitle>
                             <CardDescription>
-                                Личная информация
+                                Personal information
                             </CardDescription>
                         </CardHeader>
                         <CardContent className='space-y-3'>
                             <Label className='mr-5'>ID: {userData?.id}</Label>
                             <div className='space-y-2'>
-                                <Label htmlFor='username'>Логин</Label>
+                                <Label htmlFor='username'>Username</Label>
                                 <Input disabled id='username' value={userData?.username || 'Loading...'} />
                             </div>
                             <div className='space-y-2'>
-                                <Label htmlFor='email'>Почта</Label>
+                                <Label htmlFor='email'>E-mail</Label>
                                 <Input disabled id='email' value={userData?.email || 'Loading...'} />
                             </div>
                             <div className='space-y-2'>
-                                <Label className='mr-5'>Роли</Label>
+                                <Label className='mr-5'>Roles</Label>
                                 {userData && (
                                     <Badge>{userData.role}</Badge>
                                 )}
@@ -156,25 +159,25 @@ const Profile = () => {
                         </CardContent>
                         <CardFooter className='justify-between'>
                             {/* <Button disabled>Save changes</Button> */}
-                            <Button onClick={signOut}>Выйти из аккаунта</Button>
+                            <Button onClick={signOut}>Log out</Button>
                         </CardFooter>
                     </Card>
                 </TabsContent>
                 <TabsContent value='orders'>
                     <Card>
                         <CardHeader>
-                            <CardTitle>Заказы</CardTitle>
+                            <CardTitle>Orders</CardTitle>
                             <CardDescription>
-                                История ваших заказов
+                                History of your completed orders
                             </CardDescription>
                         </CardHeader>
                         <Table>
                             <TableHeader>
                                 <TableRow >
                                     <TableHead className="text-center">ID</TableHead>
-                                    <TableHead className="text-center">Статус</TableHead>
-                                    <TableHead className="text-center">Дата</TableHead>
-                                    <TableHead className="text-center">Сумма</TableHead>
+                                    <TableHead className="text-center">Status</TableHead>
+                                    <TableHead className="text-center">Date</TableHead>
+                                    <TableHead className="text-center">Total</TableHead>
                                 </TableRow>
                             </TableHeader>
                             <TableBody>
@@ -230,17 +233,17 @@ const Profile = () => {
                         </CardFooter>
                     </Card>
                 </TabsContent> */}
-                {/* <TabsContent value='appearance'>
+                <TabsContent value='appearance'>
                     <Card>
                         <CardHeader>
-                            <CardTitle>Персонализация</CardTitle>
+                            <CardTitle>Personalization</CardTitle>
                             <CardDescription>
-                                Настройте вид приложения под себя
+                                Customize your application appearance
                             </CardDescription>
                         </CardHeader>
                         <CardContent className='space-y-3'>
                             <div className='space-y-2'>
-                                <Label htmlFor='font'>Шрифт</Label>
+                                <Label htmlFor='font'>Font</Label>
                                 <Select disabled>
                                     <SelectTrigger id='font'>
                                         <SelectValue placeholder="Geist" />
@@ -251,24 +254,24 @@ const Profile = () => {
                                 </Select>
                             </div>
                             <div className='space-y-2'>
-                                <Label htmlFor='theme'>Тема</Label>
+                                <Label htmlFor='theme'>Theme</Label>
                                 <Select value={preferredTheme} onValueChange={setPreferredTheme}>
                                     <SelectTrigger id='theme'>
                                         <SelectValue placeholder="Theme" />
                                     </SelectTrigger>
                                     <SelectContent>
-                                        <SelectItem value="dark">Темная</SelectItem>
-                                        <SelectItem value="light">Светлая</SelectItem>
-                                        <SelectItem value="system">Системная</SelectItem>
+                                        <SelectItem value="dark">Dark</SelectItem>
+                                        <SelectItem value="light">Light</SelectItem>
+                                        <SelectItem value="system">System</SelectItem>
                                     </SelectContent>
                                 </Select>
                             </div>
                         </CardContent>
                         <CardFooter>
-                            <Button onClick={submitPreferences}>Сохранить изменения</Button>
+                            <Button onClick={submitPreferences}>Update preferences</Button>
                         </CardFooter>
                     </Card>
-                </TabsContent> */}
+                </TabsContent>
             </Tabs>
         </div>
         // <div className='flex flex-col gap-5'>

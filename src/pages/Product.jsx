@@ -3,44 +3,47 @@ import Loader from "@/components/Loader"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Card, } from "@/components/ui/card"
-import { ToastAction } from "@/components/ui/toast"
 import { toast } from "@/components/ui/use-toast"
+import errorToast from "@/lib/errorToast"
 import useViewNavigate from "@/lib/hooks/viewNavigate"
 import transition from "@/lib/transition"
 import { CanceledError } from "axios"
 import { useEffect, useState } from "react"
-import { useLocation, useParams } from "react-router-dom"
+import { flushSync } from "react-dom"
+import { useParams } from "react-router-dom"
 
 const Product = () => {
     const navigate = useViewNavigate()
-    const location = useLocation()
     const { id } = useParams()
     const [product, setProduct] = useState({})
     const [isLoading, setLoading] = useState(true)
 
     const addToCart = async (event, productId) => {
         transition(() => {
-            event.target.innerText = 'Подождите...'
+            event.target.innerText = 'Loading...'
             event.target.disabled = true
         })
         try {
             await axiosPrivate.post(`/cart/items?productId=${productId}`, {}, {
                 validateStatus: (status) => status === 200
             })
-            event.target.innerText = 'Добавлено'
+            event.target.innerText = 'Added'
             toast({
-                title: 'Товар добавлен в корзину'
+                title: 'Product added to cart'
             })
         } catch (err) {
-            event.target.innerText = 'Добавить в корзину'
-            event.target.disabled = false
+            transition(() => {
+                flushSync(() => {
+                    event.target.innerText = 'Add to cart'
+                    event.target.disabled = false
+                })
+            })
             if (err.response?.status === 401)
-                toast({
-                    title: 'Необходима авторизация!',
-                    description: 'Чтобы добавлять товары в корзину',
-                    action: <ToastAction className="" altText="Войти" onClick={() => {
-                        navigate('/login', { state: { from: location } })
-                    }}>Войти</ToastAction>
+                transition(() => {
+                    flushSync(() => {
+                        event.target.innerText = 'Add to cart'
+                        event.target.disabled = false
+                    })
                 })
         }
     }
@@ -55,16 +58,14 @@ const Product = () => {
                 })
                 return response.data
             } catch (err) {
-                console.log(err)
                 if (err instanceof CanceledError)
                     return
-                if (err.response.status !== 404)
-                    toast({
-                        variant: 'destructive',
-                        title: 'Что-то пошло не так...',
-                        description: 'Возникла проблема с запросом, попробуйте позже',
-                    })
-                navigate('/404', { replace: true })
+                if (err.response.status !== 404) {
+                    errorToast()
+                    navigate('/error', { replace: true })
+                }
+                else
+                    navigate('/404', { replace: true })
             }
         }
         fetchData(id).then((product) => {
@@ -107,7 +108,7 @@ const Product = () => {
                             </span>
 
                             <Button className='w-fit' onClick={(e) => { addToCart(e, product.id) }}>
-                                Добавить в корзину
+                                Add to cart
                             </Button>
                         </div>
                     </>

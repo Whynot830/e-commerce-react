@@ -1,28 +1,29 @@
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Form, FormControl, FormDescription, FormItem, FormField, FormLabel, FormMessage } from "@/components/ui/form"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { z } from "zod"
-import { zodResolver } from '@hookform/resolvers/zod'
-import { useEffect, useRef, useState } from "react"
-import transition from "@/lib/transition"
-import { useForm } from "react-hook-form"
-import { EyeIcon, EyeOffIcon, LoaderIcon } from "lucide-react"
-import useViewNavigate from "@/lib/hooks/viewNavigate"
-import { toast } from "@/components/ui/use-toast"
 import axios from "@/api/axios"
-import { useLocation } from "react-router-dom"
 import ViewTransitionLink from "@/components/ViewTransitionLink"
+import { Button } from "@/components/ui/button"
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
+import { Input } from "@/components/ui/input"
+import { toast } from "@/components/ui/use-toast"
+import errorToast from "@/lib/errorToast"
+import useViewNavigate from "@/lib/hooks/viewNavigate"
+import transition from "@/lib/transition"
+import { zodResolver } from '@hookform/resolvers/zod'
+import { EyeIcon, EyeOffIcon } from "lucide-react"
+import { useEffect, useRef, useState } from "react"
+import { useForm } from "react-hook-form"
+import { useLocation } from "react-router-dom"
+import { z } from "zod"
 
 const schema = z.object({
-    username: z.string().trim().min(3, 'Длина должна быть от 3 до 16 символов').max(16, 'Длина должна быть от 3 до 16 символов'),
-    email: z.string().email('Неправильный формат почты'),
-    password: z.string().trim().min(6, 'Не менее 6 символов').max(32, 'Не более 32 символов'),
+    username: z.string().trim().min(3, 'Required length from 3 to 16 characters').max(16, 'Required length from 3 to 16 characters'),
+    email: z.string().email('Incorrect e-mail format'),
+    password: z.string().trim().min(6, 'At least 6 characters').max(32, 'At most 32 characters'),
     passwordConfirmation: z.string()
 }).refine(
     (values) => values.password === values.passwordConfirmation,
     {
-        message: "Пароли не совпадает",
+        message: "Passwords do not match",
         path: ["passwordConfirmation"]
     }
 )
@@ -72,24 +73,20 @@ const SignUp = () => {
                 setLoading(false)
                 toast({
                     variant: 'destructive',
-                    title: 'Пользователь с таким логином/почтой уже существует',
+                    title: 'Username/e-mail already taken',
                 })
             }
             if (response.status === 200) {
                 toast({
-                    title: 'Регистрация успешна',
-                    description: 'Теперь можно войти в аккаунт',
+                    title: 'Signup success',
+                    description: 'Now you can sign in to your account',
                 })
                 navigate('/login', options)
 
             }
         } catch (err) {
             setLoading(false)
-            toast({
-                variant: 'destructive',
-                title: 'Что-то пошло не так...',
-                description: 'Возникла проблема с запросом, попробуйте позже',
-            })
+            errorToast()
         }
     }
 
@@ -99,10 +96,10 @@ const SignUp = () => {
     }, [])
 
     return (
-        <div className="flex h-5/6 items-center justify-center">
-            <Card className="sm:w-[300px] md:w-[400px]">
+        <div className="flex items-center justify-center">
+            <Card className="sm:w-[400px]">
                 <CardHeader>
-                    <CardTitle>Создать аккаунт</CardTitle>
+                    <CardTitle>Create your account</CardTitle>
                 </CardHeader>
                 <CardContent>
                     <Form {...form}>
@@ -112,12 +109,12 @@ const SignUp = () => {
                                 name="username"
                                 render={({ field }) => (
                                     <FormItem>
-                                        <FormLabel>Логин</FormLabel>
+                                        <FormLabel>Username</FormLabel>
                                         <FormControl>
                                             <Input placeholder="goodPerson21" {...field} ref={inputRef} />
                                         </FormControl>
                                         <FormDescription>
-                                            От 3 до 16 символов
+                                            3 to 16 characters
                                         </FormDescription>
                                         <FormMessage />
                                     </FormItem>
@@ -141,7 +138,7 @@ const SignUp = () => {
                                 name="password"
                                 render={({ field }) => (
                                     <FormItem>
-                                        <FormLabel>Пароль</FormLabel>
+                                        <FormLabel>Password</FormLabel>
                                         <div className="flex relative items-center justify-end">
                                             <FormControl>
                                                 <Input type={isPassVisible ? 'text' : 'password'} placeholder="notWeakPass141!" {...field} />
@@ -154,7 +151,7 @@ const SignUp = () => {
                                             </div>
                                         </div>
                                         <FormDescription>
-                                            От 6 до 32 символов
+                                            6 to 32 characters
                                         </FormDescription>
                                         <FormMessage />
                                     </FormItem>
@@ -165,7 +162,7 @@ const SignUp = () => {
                                 name="passwordConfirmation"
                                 render={({ field }) => (
                                     <FormItem>
-                                        <FormLabel>Подтверждение пароля</FormLabel>
+                                        <FormLabel>Password confirmation</FormLabel>
                                         <FormControl>
                                             <Input type={isPassVisible ? 'text' : 'password'} {...field} />
                                         </FormControl>
@@ -175,17 +172,11 @@ const SignUp = () => {
                             />
                             <div className="flex flex-col gap-y-4 items-start">
                                 <ViewTransitionLink to='/login' options={options}>
-                                    <span className="text-sm text-primary font-medium underline-offset-4 hover:underline">Уже есть аккаунт?</span>
+                                    <span className="text-sm text-primary font-medium underline-offset-4 hover:underline">Already have an account?</span>
                                 </ViewTransitionLink>
-                                <Button disabled={isLoading} type='submit'>
-                                    {isLoading ? (
-                                        <>
-                                            <LoaderIcon className="text-primary-foreground animate-spin mr-3"></LoaderIcon>
-                                            Подождите
-                                        </>
-                                    ) :
-                                        'Создать аккаунт'
-                                    }</Button>
+                                <Button isLoading={isLoading} type='submit'>
+                                    Sign Up
+                                </Button>
                             </div>
                         </form>
                     </Form>
