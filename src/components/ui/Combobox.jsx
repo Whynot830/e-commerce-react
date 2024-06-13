@@ -1,6 +1,5 @@
 import { Check, ChevronsUpDown } from 'lucide-react'
 
-import { cn } from '@/lib/utils'
 import { Button } from '@/components/ui/button'
 import {
     Command,
@@ -14,8 +13,9 @@ import {
     PopoverContent,
     PopoverTrigger,
 } from '@/components/ui/popover'
-import { useState } from 'react'
+import { cn } from '@/lib/utils'
 import { CommandList } from 'cmdk'
+import { useState } from 'react'
 
 const Combobox = ({ data, itemName, value, setValue, caption = `Select ${itemName}...`, withSearch = false }) => {
     const [open, setOpen] = useState(false)
@@ -33,15 +33,17 @@ const Combobox = ({ data, itemName, value, setValue, caption = `Select ${itemNam
                     <ChevronsUpDown className='ml-2 h-4 w-4 shrink-0 opacity-50' />
                 </Button>
             </PopoverTrigger>
-            <PopoverContent className='w-[200px] p-0'>
+            <PopoverContent className='min-w-[100px] max-w-[250px] p-0'>
                 <Command>
                     {withSearch && (
                         <CommandInput placeholder={`Search ${itemName}...`} />
                     )}
                     <CommandEmpty>{`No ${itemName} found`}</CommandEmpty>
-                    <CommandList>
+
+                    <CommandList className='max-h-40 overflow-auto '>
                         <CommandGroup>
-                            {data.map((item, idx) => (
+                            {data.map((item, idx) =>
+                            (
                                 <CommandItem
                                     key={idx}
                                     value={item.value}
@@ -58,9 +60,11 @@ const Combobox = ({ data, itemName, value, setValue, caption = `Select ${itemNam
                                     />
                                     {item.name?.toUpperCase()}
                                 </CommandItem>
-                            ))}
+                            )
+                            )}
                         </CommandGroup>
                     </CommandList>
+
                 </Command>
             </PopoverContent>
         </Popover >

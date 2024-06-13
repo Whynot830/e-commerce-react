@@ -57,14 +57,14 @@ const ProductsByCategory = () => {
                 ? <Loader />
                 : (
                     <div className="h-full flex flex-col items-center">
-                        <div className="flex flex-col items-start mx-auto w-full max-w-[400px] sm:max-w-[600px]
+                        <Card className="flex flex-col items-start mx-auto w-full max-w-[400px] sm:max-w-[600px]
                         sm:grid grid-cols-3 bg-card p-4 gap-y-3 sm:items-center rounded-lg text-secondary-foreground font-semibold">
                             <h3>Search by title</h3>
                             <Input placeholder='Start by typing title...' className='col-span-2' onChange={(e) => transition(() => setQuery(e.target.value))} />
                             <h3>Sort by</h3>
                             <Combobox value={sort.name} setValue={setSort} data={sortStrategies} caption={`${sort.name}`} />
                             <Combobox value={order.name} setValue={setOrder} data={sortOrders} caption={`${order.name}`} />
-                        </div>
+                        </Card>
                         {searchedProducts.length !== 0 && (
                             <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 
                                             xl:grid-cols-4 gap-4 justify-items-center flex-1 w-fit">

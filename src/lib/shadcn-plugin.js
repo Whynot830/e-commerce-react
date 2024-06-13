@@ -11,7 +11,7 @@ export const shadcnPlugin = plugin(
                 "--popover": "0 0% 96%",
                 "--popover-foreground": "0 0% 0%",
                 "--primary": "255 45% 30%",
-                "--primary-foreground": "0 0% 95%",
+                "--primary-foreground": "0 0% 90%",
                 "--secondary": "250 25% 75%",
                 "--secondary-foreground": "0 0% 0%",
                 "--muted": "240 10% 90%",
@@ -67,6 +67,9 @@ export const shadcnPlugin = plugin(
                 },
             },
             extend: {
+                fontFamily: {
+                    'geist': ['Geist', 'system-ui']
+                },
                 colors: {
                     border: "hsl(var(--border))",
                     input: "hsl(var(--input))",

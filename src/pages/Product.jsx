@@ -93,9 +93,7 @@ const Product = () => {
                             </h2>
 
                             <Card className="bg-secondary p-1 w-2/3 max-w-[300px] sm:max-w-[400px] md:w-[400px]">
-                                <object className="w-full rounded-sm" data={`${axios.defaults.baseURL}/images/${product?.imgName}`} type="image/png">
-                                    <img className='h-full transition' src='/furniture.png' alt={`${product?.title} image`} />
-                                </object>
+                                <img className='h-full rounded-xl' src={product?.imgUrl ?? '/furniture.png'} alt={`${product?.title} image`} />
                             </Card>
                             <Badge variant='secondary' className='w-fit'>{product?.category.toUpperCase()}</Badge>
 

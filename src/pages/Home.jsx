@@ -6,7 +6,7 @@ const Home = () => {
             <div className="snap-center relative">
                 <img className='w-full h-auto' src="laurameroni-luxury-diningroom_intro.jpg" alt="laurameroni-luxury-diningroom_intro" />
                 <div className="absolute inset-0 h-3/4 flex items-center justify-center">
-                    <p className="bg-black/30 backdrop-blur-sm py-2 w-full text-white font-bold tracking-tight text-center text-balance text-3xl sm:text-4xl md:text-5xl lg:text-6xl">
+                    <p className="bg-black/30 backdrop-blur-sm py-2 w-full text-white font-bold tracking-tight text-center text-3xl sm:text-4xl md:text-5xl lg:text-6xl">
                         <span className="text-[#633]">Easy </span>
                         way to bring
                         <span className="text-[#973737]"> warmth </span>
@@ -19,7 +19,7 @@ const Home = () => {
             <div className="snap-center relative">
                 <img className="w-full h-auto" src="laurameroni-luxury-livingroom-interior-design_09.jpg" alt="laurameroni-luxury-livingroom-interior-design_09.jpg" />
                 <div className="absolute inset-0 h-5/6 flex items-center justify-center">
-                    <p className="bg-black/30 backdrop-blur-sm py-2 w-full text-white font-bold tracking-tight text-center text-balance text-3xl sm:text-4xl md:text-5xl lg:text-6xl">
+                    <p className="bg-black/30 backdrop-blur-sm py-2 w-full text-white font-bold tracking-tight text-center text-3xl sm:text-4xl md:text-5xl lg:text-6xl">
                         Variety of
                         <span className="text-[#774c29]"> furniture</span>
                     </p>
@@ -28,7 +28,7 @@ const Home = () => {
             <div className="snap-center relative">
                 <img className="w-full h-auto" src="laurameroni-luxury-livingroom-interior-design_intro_0.jpg" alt="aurameroni-luxury-livingroom-interior-design_intro_0" />
                 <div className="absolute inset-0 h-5/6 flex flex-col gap-y-5 items-center justify-center">
-                    <p className="bg-black/30 backdrop-blur-sm py-2 w-full text-white font-bold tracking-tight text-center text-balance text-3xl sm:text-4xl md:text-5xl lg:text-6xl">
+                    <p className="bg-black/30 backdrop-blur-sm py-2 w-full text-white font-bold tracking-tight text-center text-3xl sm:text-4xl md:text-5xl lg:text-6xl">
                         <span className="text-[#461717]">Begin </span>
                         your adventure
                     </p>

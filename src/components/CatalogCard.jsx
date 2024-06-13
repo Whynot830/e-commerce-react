@@ -1,14 +1,13 @@
+import { axiosPrivate } from "@/api/axios"
+import useViewNavigate from "@/lib/hooks/viewNavigate"
 import transition from "@/lib/transition"
+import { flushSync } from "react-dom"
+import { useLocation } from "react-router-dom"
 import ViewTransitionLink from "./ViewTransitionLink"
 import { Button } from "./ui/button"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "./ui/card"
-import { Skeleton } from "./ui/skeleton"
-import axios, { axiosPrivate } from "@/api/axios"
-import { toast } from "./ui/use-toast"
-import { flushSync } from "react-dom"
-import useViewNavigate from "@/lib/hooks/viewNavigate"
-import { useLocation } from "react-router-dom"
 import { ToastAction } from "./ui/toast"
+import { toast } from "./ui/use-toast"
 
 const CatalogCard = ({ product }) => {
     const navigate = useViewNavigate()
@@ -50,7 +49,7 @@ const CatalogCard = ({ product }) => {
             <CardHeader className='p-4'>
                 <CardTitle className="text-base flex items-center">
                     <p className='text-nowrap overflow-hidden text-ellipsis'>
-                        {product ? product.title : "Coming soon!"}
+                        {product?.title ?? "Coming soon!"}
                     </p>
                 </CardTitle>
 
@@ -66,25 +65,13 @@ const CatalogCard = ({ product }) => {
             </CardHeader>
             <CardContent className='p-4 pt-0 flex justify-center items-end' >
                 <div className=" flex h-[120px] sm:h-[150px] w-full justify-center">
-                    {product ? (
-
-                        <object data={`${axios.defaults.baseURL}/images/${product.imgName}`} type="image/png">
-                            <img className='h-full' src='/furniture.png' alt={`${product.title} image`} />
-                        </object>
-
-                    ) : (
-                        // CHECK
-                        <div className="flex-1 px-6">
-                            <Skeleton className='h-full w-full' />
-                        </div>
-
-                    )}
+                    <img className='h-full' src={product?.imgUrl ?? '/furniture.png'} alt={`${product?.title} image`} />
                 </div>
             </CardContent>
             <CardFooter className='p-4 flex flex-wrap justify-between gap-3'>
 
-                <span className="text-muted-foreground">{product ? <>${product.price}</> : 'N/A'} </span>
-                <Button disabled={!product} onClick={(e) => { addToCart(e, product.id) }}>
+                <span className="text-muted-foreground">{product ? `$${product?.price}` : 'N/A'} </span>
+                <Button disabled={!product} onClick={(e) => { addToCart(e, product?.id) }}>
                     Add to cart
                 </Button>
             </CardFooter>

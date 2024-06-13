@@ -1,4 +1,3 @@
-import './App.css'
 import { Route, Routes } from 'react-router-dom'
 import PersistLogin from './components/PersistLogin'
 import RequireAuth from './components/RequireAuth'
@@ -25,7 +24,7 @@ function App() {
         <Route path="/catalog" element={< Catalog />} />
         <Route path="/catalog/:category" element={< ProductsByCategory />} />
         <Route path="/catalog/:category/:id" element={< Product />} />
-
+        
         <Route element={<PersistLogin />}>
           <Route element={<RequireAuth />}>
             <Route path="/profile" element={< Profile />} />

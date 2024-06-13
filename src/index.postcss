@@ -7,8 +7,33 @@
   src: url("/GeistVariableVF.ttf")
 }
 
+* {
+  @apply text-balance
+}
+
 html,
 body,
 #root {
-  @apply min-h-screen min-w-[320px] selection:bg-foreground/15;
+  @apply min-h-screen min-w-[320px] selection:bg-foreground/15 font-geist;
+}
+
+[data-theme='dark'] img,
+[data-theme='dark'] object {
+  @apply brightness-90
+}
+
+::-webkit-scrollbar {
+  @apply w-2
+}
+
+::-webkit-scrollbar-track {
+  @apply bg-black/10
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-primary/40 hover:bg-primary/60 rounded
+}
+
+svg {
+  @apply text-primary
 }
