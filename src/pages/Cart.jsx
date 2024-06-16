@@ -109,7 +109,10 @@ const Cart = () => {
                                             <Card key={item.id} className="p-3 flex flex-col sm:flex-row gap-3 bg-accent">
                                                 <CardHeader className='p-0'>
                                                     <div className="mx-auto w-full max-w-[200px] sm:w-[120px]">
-                                                        <img className='h-full' src={item.product.imgUrl ?? '/furniture.png'} alt={`${item.title} image`} />
+                                                        <img
+                                                            className="w-full rounded-xl"
+                                                            src={item.product.imgUrl || '/furniture.png'}
+                                                            onError={(e) => e.target.src = '/furniture.png'} />
                                                     </div>
                                                 </CardHeader>
                                                 <CardContent className='p-0 flex-1'>

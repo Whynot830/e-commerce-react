@@ -66,8 +66,9 @@ const ProductsByCategory = () => {
                             <Combobox value={order.name} setValue={setOrder} data={sortOrders} caption={`${order.name}`} />
                         </Card>
                         {searchedProducts.length !== 0 && (
-                            <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 
-                                            xl:grid-cols-4 gap-4 justify-items-center flex-1 w-fit">
+                            // mt-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 
+                            // xl:grid-cols-4 gap-4 justify-items-center flex-1 w-fit
+                            <div className="grid grid-cols-products w-full gap-4 mt-4 justify-items-center flex-1">
                                 {searchedProducts.map(product =>
                                 (
                                     <div key={product.id} className="w-full max-w-[400px]">

@@ -87,17 +87,20 @@ const Product = () => {
                 ) :
                 (
                     <>
-                        <div className="flex flex-col gap-y-4 sm:max-w-[75%]">
+                        <div className="flex flex-col gap-y-4 ">
                             <h2 className="text-xl sm:text-2xl font-semibold tracking-tight text-secondary-foreground">
                                 {product?.title}
                             </h2>
 
-                            <Card className="bg-secondary p-1 w-2/3 max-w-[300px] sm:max-w-[400px] md:w-[400px]">
-                                <img className='h-full rounded-xl' src={product?.imgUrl ?? '/furniture.png'} alt={`${product?.title} image`} />
+                            <Card className="bg-secondary w-2/3 max-w-[450px] p-1 sm:p-2 ">
+                                <img
+                                    className="w-full rounded-xl"
+                                    src={product?.imgUrl || '/furniture.png'}
+                                    onError={(e) => e.target.src = '/furniture.png'} />
                             </Card>
                             <Badge variant='secondary' className='w-fit'>{product?.category.toUpperCase()}</Badge>
 
-                            <p className="text-lg sm:text-xl font-semibold text-secondary-foreground tracking-tight ">
+                            <p className="text-lg sm:text-xl font-semibold text-secondary-foreground tracking-tight">
                                 {product?.description}
                             </p>
 

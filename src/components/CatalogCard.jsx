@@ -64,8 +64,11 @@ const CatalogCard = ({ product }) => {
 
             </CardHeader>
             <CardContent className='p-4 pt-0 flex justify-center items-end' >
-                <div className=" flex h-[120px] sm:h-[150px] w-full justify-center">
-                    <img className='h-full' src={product?.imgUrl ?? '/furniture.png'} alt={`${product?.title} image`} />
+                <div className="flex h-[200px] justify-center">
+                    <img
+                        className="w-full rounded-xl object-cover"
+                        src={product?.imgUrl || '/furniture.png'}
+                        onError={(e) => e.target.src = '/furniture.png'} />
                 </div>
             </CardContent>
             <CardFooter className='p-4 flex flex-wrap justify-between gap-3'>

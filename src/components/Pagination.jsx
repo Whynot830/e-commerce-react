@@ -16,7 +16,7 @@ const PaginationComponent = ({ totalPage, page, siblings, setPage }) => {
                     <PaginationItem key={idx}>
                         {v === '...' ?
                             (
-                                <PaginationEllipsis className={cn('w-10 h-10')} />
+                                <PaginationEllipsis />
                             )
                             :
                             (

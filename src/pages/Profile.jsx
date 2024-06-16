@@ -191,6 +191,15 @@ const Profile = () => {
                                     </TableRow>
                                 ))
                                 }
+                                {
+                                    orders.length === 1 && orders[0].status === 'CART' && (
+                                        <TableRow>
+                                            <TableCell colspan='4'>
+                                                No completed orders yet
+                                            </TableCell>
+                                        </TableRow>
+                                    )
+                                }
                             </TableBody>
                         </Table>
                     </Card>
